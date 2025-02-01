@@ -3,7 +3,10 @@ const fileUpload = require('express-fileupload');
 const fs = require("fs")
 
 exports.getIndexPage = async(req,res)=>{
-    res.render("index")
+    const photos = await Photo.find()
+    res.render("index",{
+        photos
+    })
 }
 exports.getAddPage  = async(req,res)=>{
     res.render("add")
@@ -17,9 +20,9 @@ exports.addPhotos = async(req,res)=>{
   }
 
     uploadPhoto = req.files.photo;
-    uploadPath = __dirname + '/public/uploads' + uploadPhoto.name;
+    uploadPath = __dirname + '/../public/uploads/' + uploadPhoto.name;
     
-    // const photos = await Photo.create(req.body)
+    
     uploadPhoto.mv(uploadPath, async()=>{
         await Photo.create({
             ...req.body,
@@ -29,4 +32,11 @@ exports.addPhotos = async(req,res)=>{
 
 
     res.status(200).redirect("/")
+}
+exports.editPage = async(req,res)=>{
+    const photo = await Photo.findOne({_id:req.params.id})
+
+    res.status(200).render("edit",{
+        photo
+    })
 }
