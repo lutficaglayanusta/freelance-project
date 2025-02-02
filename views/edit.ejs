@@ -18,7 +18,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-8 col-xl-7">
             
-                <form id="contactForm">
+                <form id="contactForm" method="POST" action="/edit/<%= photo._id %>?_method=PUT">
                     <!-- Name input-->
                     <div class="form-floating mb-3">
                         <input value="<%= photo.title %>" class="form-control" id="name" name="title" type="text" />
